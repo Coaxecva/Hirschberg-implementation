@@ -79,7 +79,7 @@ def lcs_algo_C(X, Y, m, n):
     x2 = X[m//2:]
     # Check for correct split of Y
     kk = -1
-    for k in range(n):
+    for k in range(1,n):
         l1 = lcs_algo_B(x1, Y[:k], m//2, k)
         l2 = lcs_algo_B(x2, Y[k:], m-m//2, n-k)
         if ll == l1+l2:
@@ -96,6 +96,8 @@ def lcs_algo_C(X, Y, m, n):
     # Solve simpler problems
     c1 = lcs_algo_C(x1, y1, m//2, kk)
     c2 = lcs_algo_C(x2, y2, m-m//2, n-kk)
+    print(x1, " <--> ", y1)
+    print(x2, " <--> ", y2)
     return c1+c2
 
 

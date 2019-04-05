@@ -78,8 +78,8 @@ def lcs_algo_C(X, Y, m, n):
     x1 = X[:m//2]
     x2 = X[m//2:]
     # Check for correct split of Y
-    kk = -1
-    for k in range(1,n):
+    kk = 0
+    for k in range(0,n):
         l1 = lcs_algo_B(x1, Y[:k], m//2, k)
         l2 = lcs_algo_B(x2, Y[k:], m-m//2, n-k)
         print("ll: ", ll)
@@ -90,8 +90,10 @@ def lcs_algo_C(X, Y, m, n):
             break
 
     # Flag!!!!
-    if kk == -1:
-        print("BUG HERE!!!")
+    if ll != l1+ l2:
+        print(x1, x2, ll, l1, l2)
+        print("Cannot find a split")
+        exit(0)
 
     # Split Y
     y1 = Y[:kk]

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def print_matrix(a, m, n):
     for i in range(m):
         for j in range(n):
@@ -77,3 +79,6 @@ if __name__ == '__main__':
     # Algorithm B
     L_B = lcs_algo_B(X, Y, m, n)
     print_matrix(L_B, 2, n+1)
+
+    # Algorithm C
+    

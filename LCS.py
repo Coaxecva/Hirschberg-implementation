@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import argparse
+
+DEBUG = True
 
 def print_matrix(a, m, n):
     for i in range(m):
@@ -78,14 +81,17 @@ def lcs_algo_C(X, Y, m, n):
     x1 = X[:m//2]
     x2 = X[m//2:]
     # Check for correct split of Y
-    k = 0
+    k = -1
     while k<n :
         k += 1
         l1 = lcs_algo_B(x1, Y[:k], m//2, k)
         l2 = lcs_algo_B(x2, Y[k:], m-m//2, n-k)
-        print("ll: ", ll)
-        print(x1, " <--> ", Y[:k], ' l1: ', l1)
-        print(x2, " <--> ", Y[k:], ' l2: ', l2)
+
+        if DEBUG:
+            print("ll: ", ll)
+            print(x1, " <--> ", Y[:k], ' l1: ', l1)
+            print(x2, " <--> ", Y[k:], ' l2: ', l2)
+        
         if ll == l1+l2:
             break
 
@@ -96,26 +102,42 @@ def lcs_algo_C(X, Y, m, n):
     y1 = Y[:k]
     y2 = Y[k:]
 
-    print("== Splitted ==")
-    print("   ", x1, " <--> ", y1)
-    print("   ", x2, " <--> ", y2)
-    
+    if DEBUG:
+        print("== Splitted ==")
+        print("   ", x1, " <--> ", y1)
+        print("   ", x2, " <--> ", y2)
+
     # Solve simpler problems
     c1 = lcs_algo_C(x1, y1, m//2, k)
     c2 = lcs_algo_C(x2, y2, m-m//2, n-k)
     return c1+c2
 
+def Test():
+    global DEBUG
+    DEBUG = False
 
-if __name__ == '__main__':
-    
-    # Init
+    test_cases = [
+        ("AGGTCCAB", "GXTCXXXCXAYB"),
+        ("", "ABC"),
+        ("XXX", ""),
+        ("AAAAAATGC", "AATAAAAGAAC"),
+        ("XXYYZZZ", "XZYZZZ"),
+        ("AAAAAAAAAAAAA", "A"),
+        ("AA--------AA", "AAAA"),
+        ("CCCAA-AA-AACCC", "---ACAACAA---A----")
+    ]
 
-    #X = "AGGTCCAB"
-    #Y = "GXTCXXXCXAYB"
-    
+    for case in test_cases:
+        X, Y = case
+        m, n = len(X), len(Y)
+        strlcs = lcs(X, Y, m, n, lcs_algo_A(X, Y, m, n)) 
+        strlcs1 = lcs_algo_C(X, Y, m, n)
+        assert( strlcs == strlcs1 )
+        print("LCS (", X, ", ", Y, ") = ", strlcs1)
+
+def Demo():
     X = "ABXXXC"
     Y = "XABCCCXXABC"
-    
     m = len(X) 
     n = len(Y) 
 
@@ -123,7 +145,7 @@ if __name__ == '__main__':
     L_A = lcs_algo_A(X, Y, m, n) 
     print_matrix(L_A, m+1, n+1)    
     strlcs = lcs(X, Y, m, n, L_A)
-    print("LCS (" + X + ", " + Y + ") = " + strlcs)
+    print("LCS (", X, ", ", Y, ") = ", strlcs)
 
     # Algorithm B
     #L_B = lcs_algo_B(X, Y, m, n)
@@ -131,4 +153,16 @@ if __name__ == '__main__':
 
     # Algorithm C
     strlcs1 = lcs_algo_C(X, Y, m, n)
-    print("LCS (" + X + ", " + Y + ") = " + strlcs1)    
+    print("LCS (", X, ", ", Y, ") = ", strlcs1)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='LCS Demo: 2D array vs. Hirschberg implementation')
+    parser.add_argument('--opt', type=int, required=True, help='1 for Demo, or 2 for Test')
+    args = parser.parse_args()
+
+    if args.opt == 1:
+        Demo()
+    elif args.opt == 2:
+        Test()
+    else:
+        parser.error("opt must be 1 or 2")

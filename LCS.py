@@ -78,39 +78,44 @@ def lcs_algo_C(X, Y, m, n):
     x1 = X[:m//2]
     x2 = X[m//2:]
     # Check for correct split of Y
-    kk = 0
-    for k in range(0,n):
+    k = 0
+    while k<n :
+        k += 1
         l1 = lcs_algo_B(x1, Y[:k], m//2, k)
         l2 = lcs_algo_B(x2, Y[k:], m-m//2, n-k)
         print("ll: ", ll)
         print(x1, " <--> ", Y[:k], ' l1: ', l1)
         print(x2, " <--> ", Y[k:], ' l2: ', l2)
         if ll == l1+l2:
-            kk = k
             break
 
     # Flag!!!!
-    if ll != l1+ l2:
-        print(x1, x2, ll, l1, l2)
-        print("Cannot find a split")
-        exit(0)
+    assert(ll == l1 + l2)
 
     # Split Y
-    y1 = Y[:kk]
-    y2 = Y[kk:]
+    y1 = Y[:k]
+    y2 = Y[k:]
+
+    print("== Splitted ==")
+    print("   ", x1, " <--> ", y1)
+    print("   ", x2, " <--> ", y2)
+    
     # Solve simpler problems
-    c1 = lcs_algo_C(x1, y1, m//2, kk)
-    c2 = lcs_algo_C(x2, y2, m-m//2, n-kk)
-    print(x1, " <--> ", y1)
-    print(x2, " <--> ", y2)
+    c1 = lcs_algo_C(x1, y1, m//2, k)
+    c2 = lcs_algo_C(x2, y2, m-m//2, n-k)
     return c1+c2
 
 
 if __name__ == '__main__':
     
     # Init
-    X = "AGGTCCAB"
-    Y = "GXTCXXXCXAYB"
+
+    #X = "AGGTCCAB"
+    #Y = "GXTCXXXCXAYB"
+    
+    X = "ABXXXC"
+    Y = "XABCCCXXABC"
+    
     m = len(X) 
     n = len(Y) 
 

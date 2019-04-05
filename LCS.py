@@ -82,6 +82,9 @@ def lcs_algo_C(X, Y, m, n):
     for k in range(1,n):
         l1 = lcs_algo_B(x1, Y[:k], m//2, k)
         l2 = lcs_algo_B(x2, Y[k:], m-m//2, n-k)
+        print("ll: ", ll)
+        print(x1, " <--> ", Y[:k], ' l1: ', l1)
+        print(x2, " <--> ", Y[k:], ' l2: ', l2)
         if ll == l1+l2:
             kk = k
             break

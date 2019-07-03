@@ -1,14 +1,3 @@
-#include <stdint.h>
-#include <string>
-#include <memory>                       // for shared_ptr<>
-#include <iostream>
-#include <deque>
-#include <map>
-#include <algorithm>                    // for lower_bound()
-#include <iterator>                     // for next() and prev()
- 
-using namespace std;
- 
 class LCS {
 protected:
   // This linked list class is used to trace the LCS candidates
@@ -30,7 +19,7 @@ protected:
     }
   };
  
-  typedef deque<shared_ptr<Pair>> PAIRS;
+  typedef deque< shared_ptr<Pair> > PAIRS;
   typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
   typedef map<char, INDEXES> CHAR2INDEXES;
@@ -154,17 +143,3 @@ public:
     return Select(pairs, length, false, s1, s2);
   }
 };
-
-int main(int argc,char *argv[])
-{
-
-    LCS lcs;
-    string s1, s2;
-    //s1 = "thisisatest";
-    //s2 = "testing123testing";
-    s1 = "AGCCGGAGGGGGGACACTCAGCCCCGTTTTACCCCTCC";
-    s2 = "AGCCGGACCCCCCACACTCAGCCCCGTTTCCCCTCC";
-    auto s = lcs.Correspondence(s1, s2);
-    cout << "s1 = " << s1 << ", s2 = " << s2 << endl;
-    cout << "LCS = " << s << endl;
-}
